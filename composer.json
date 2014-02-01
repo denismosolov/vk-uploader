@@ -1,0 +1,37 @@
+{
+    "name": "zendframework/skeleton-application",
+    "description": "Skeleton Application for ZF2",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "framework",
+        "zf2"
+    ],
+    "homepage": "http://framework.zend.com/",
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "google/google-api-php-client",
+                "version": "1.0.0",
+                "source": {
+                    "type": "svn",
+                    "url": "http://google-api-php-client.googlecode.com/svn",
+                    "reference": "trunk"
+                }
+            }
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.2.*",
+        "phpunit/phpunit": "3.7.*",
+        "zendframework/zftool": "dev-master",
+        "google/google-api-php-client": "1.0.0"
+    },
+    "autoload": {
+        "classmap": ["vendor/google/google-api-php-client/src"],
+        "psr-4": {
+            "YoutubeTool\\" : "module/YoutubeTool/src/"
+        }
+    }
+}
