@@ -10,17 +10,19 @@ use Zend\Http\Client;
  *
  * @author denis
  */
-class Vk 
+class Vk
 {
-    public function __construct() {
+    public function __construct()
+    {
         ;
     }
-    
+
     // title, description
-    public function upload($sitename101, $access_token, $video_title, $description, $youtube_id) {
+    public function upload($sitename101, $access_token, $video_title, $description, $youtube_id)
+    {
         $module = \VkTool\Module();
         $config = $module->getConfig();
-        
+
         $uploadVideoRequest = new Request();
         $uploadVideoRequest->setMethod(Request::METHOD_GET);
         $uploadVideoRequest->setUri('https://api.vk.com/method/video.save');
@@ -50,5 +52,5 @@ class Vk
         $addVideoRequest->getQuery()->set('access_token', $this->getRequest()->getPost('access_token'));
         $client->dispatch($addVideoRequest);
     }
-    
+
 }

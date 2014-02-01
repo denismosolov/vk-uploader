@@ -9,15 +9,16 @@ use Zend\Form\Form;
  *
  * @author denis
  */
-class VideoUpload extends Form {
-
+class VideoUpload extends Form
+{
     protected $captcha;
-    
-    public function __construct() {
+
+    public function __construct()
+    {
         parent::__construct();
-        
+
         $this->setAttribute('method', 'post');
-        
+
         $this->add(array(
             'name' => 'access_token',
             'type' => 'Zend\Form\Element\Text',
@@ -30,7 +31,7 @@ class VideoUpload extends Form {
                 'label' => 'Your access token',
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'youtube_url',
             'type' => 'Zend\Form\Element\Text',
@@ -42,7 +43,7 @@ class VideoUpload extends Form {
                 'label' => 'Youtube link',
             ),
         ));
-        
+
         $this->add(array(
             'name' => 'message',
             'type' => 'Zend\Form\Element\Textarea',
@@ -50,12 +51,12 @@ class VideoUpload extends Form {
                 'label' => 'Video description',
             )
         ));
-        
+
         $this->add(array(
             'name' => 'csrf',
             'type' => 'Zend\Form\Element\Csrf',
         ));
-        
+
         $this->add(array(
             'name' => 'submit',
             'type' => 'Zend\Form\Element\Submit',

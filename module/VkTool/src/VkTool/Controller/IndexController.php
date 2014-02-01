@@ -12,14 +12,14 @@ class IndexController extends AbstractActionController
     public function indexAction()
     {
         $config = $this->getServiceLocator()->get('config');
-                
+
                 $form = new VideoUpload();
                 if ($this->getRequest()->isPost()) {
                     $form->setData($this->getRequest()->getPost()->toArray());
                     if ($form->isValid()) {
                         // post
                         $data = $form->getData();
-                        
+
                         $uploadVideoRequest = new Request();
                         $uploadVideoRequest->setMethod(Request::METHOD_GET);
                         $uploadVideoRequest->setUri('https://api.vk.com/method/video.save');
@@ -31,17 +31,17 @@ class IndexController extends AbstractActionController
                         $uploadVideoRequest->getQuery()->set('access_token', $this->getRequest()->getPost('access_token'));
 
                         $client = new Client('https://api.vkontakte.ru', $config['client']);
-                        
+
                         $uploadVideoRequestResponce = $client->dispatch($uploadVideoRequest);
                         $video = \Zend\Json\Json::decode($uploadVideoRequestResponce->getContent(), \Zend\Json\Json::TYPE_ARRAY);
                         $client->reset();
-                        
+
                         $pingVideoRequest = new Request();
                         $pingVideoRequest->setMethod(Request::METHOD_GET);
                         $pingVideoRequest->setUri($video['response']['upload_url']);
                         var_dump($client->send($pingVideoRequest));
                         $client->reset();
-                                
+
                         $addVideoRequest = new Request();
                         $addVideoRequest->setMethod(Request::METHOD_GET);
                         $addVideoRequest->setUri('https://api.vk.com/method/video.add');
@@ -52,7 +52,7 @@ class IndexController extends AbstractActionController
                         var_dump($a->getContent());
                     }
                 }
-                
+
                 return new ViewModel(array(
                     'url' => 'https://oauth.vk.com/authorize?client_id='.$config['app_id'].
                                 '&scope=groups,video,wall,oauth&redirect_uri='.
@@ -63,6 +63,4 @@ class IndexController extends AbstractActionController
                 ));
     }
 
-
 }
-

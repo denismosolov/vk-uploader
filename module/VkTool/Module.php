@@ -20,7 +20,7 @@ class Module
             ),
         );
     }
-    
+
     public function onBootstrap(Event $e)
     {
         $services = $e->getApplication()->getServiceManager();

@@ -10,10 +10,12 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  *
  * @author denis
  */
-class Database implements FactoryInterface 
+class Database implements FactoryInterface
 {
-    public function createService(ServiceLocatorInterface $serviceLocator) {
+    public function createService(ServiceLocatorInterface $serviceLocator)
+    {
         $config = $serviceLocator->get('config');
+
         return new \Zend\Db\Adapter\Adapter($config['db']);
     }
 }
