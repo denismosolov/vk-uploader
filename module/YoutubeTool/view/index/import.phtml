@@ -1,0 +1,4 @@
+<?php
+    $this->headTitle('Import Videos From Youtube Channels');
+?>
+<p>Imported videos: <?= $this->escapeHtml($count); ?>. Click here to <a href="<?= $this->url('youtubetool/list', array('controller' => 'index', 'action' => 'index')); ?>">Review</a></p>

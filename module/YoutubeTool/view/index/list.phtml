@@ -1,0 +1,29 @@
+<?php
+$this->headTitle('Imported Youtube Videos');
+?>
+<?php
+//$form->setAttribute('action', $this->url('album', array('action' => 'add')));
+$form->prepare();
+echo $this->form()->openTag($form);
+//echo $this->formHidden($form->get('id'));
+echo $this->formRow($form->get('channel'));
+echo $this->formRow($form->get('playlist'));
+echo $this->formSubmit($form->get('submit'));
+echo $this->form()->closeTag();
+
+foreach ($videos as $video) {
+?>
+<article>
+    <header>
+        <h2><?= $this->escapeHtml($video->video_title); ?></h2>
+    </header>
+    <section>
+        <strong><?= $this->escapeHtml($video->sitename) ?></strong>, <em><?= $this->escapeHtml($video->playlist_title); ?></em><br>
+        <a href="http://www.youtube.com/watch?v=<?= $this->escapeHtml($video->video_id); ?>">Watch on YouTube</a><br>
+        <a href="<?= $this->url('youtubetool/ud', array('action' => 'edit', 'youtube_id' => $video->video_id)); ?>">Edit the Text</a>
+    </section>
+    <section>
+        <p><?= $this->escapeHtml($video->description); ?></p>
+    </section>
+</article>
+<?php } ?>
