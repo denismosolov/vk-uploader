@@ -3,6 +3,7 @@
 namespace YoutubeTool\Model;
 
 use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\Sql\Select;
 
 /**
  * Description of YoutubeVideoTable
@@ -44,7 +45,6 @@ class YoutubeVideoTable implements \Countable
 
     public function getVideo($id)
     {
-        $id  = (int) $id;
         $rowset = $this->tableGateway->select(array('id' => $id));
         $row = $rowset->current();
         if (!$row) {
@@ -59,20 +59,17 @@ class YoutubeVideoTable implements \Countable
         $data = array(
             'description' => $video->description,
             'video_title'  => $video->video_title,
-            'video_id' => $video->video_id,
+            'id' => $video->id,
             'playlist_title' => $video->playlist_title,
             'sitename' => $video->sitename,
         );
 
-        $id = (int) $video->id;
-        if ($id == 0) {
+        $id = $video->id;
+        $rowset = $this->tableGateway->select(array('id' => $id));
+        if ($rowset->count() == 0) {
             $this->tableGateway->insert($data);
         } else {
-            if ($this->getVideo($id)) {
-                $this->tableGateway->update($data, array('id' => $id));
-            } else {
-                throw new \Exception('Video does not exist');
-            }
+            $this->tableGateway->update($data, array('id' => $id));
         }
     }
 
@@ -105,7 +102,7 @@ class YoutubeVideoTable implements \Countable
                     $youtubeVideo->exchangeArray(array(
                         'video_title' => $playlistItemSnippet->getTitle(),
                         'description' => $playlistItemSnippet->getDescription(),
-                        'video_id' => $resourceId->getVideoId(),
+                        'id' => $resourceId->getVideoId(),
                         'playlist_title' => $playlistTitle,
                         'sitename' => $sitename101,
                     ));
@@ -120,4 +117,18 @@ class YoutubeVideoTable implements \Countable
         $this->tableGateway->delete(array());
     }
 
+    public function getSitenames101()
+    {
+        $select = new Select();
+        $select->from($this->tableGateway->getTable());
+        $select->quantifier(Select::QUANTIFIER_DISTINCT);
+        $select->columns(array('sitename'));
+        $resultSet = $this->tableGateway->selectWith($select);
+        $sitenames = array();
+        foreach ($resultSet as $row) {
+            $sitenames[] = $row->sitename;
+        }
+
+        return $sitenames;
+    }
 }

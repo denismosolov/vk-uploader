@@ -28,8 +28,7 @@ class YoutubeVideoTableTest extends PHPUnit_Framework_TestCase
     {
         $video = new YoutubeVideo();
         $video->exchangeArray(array('description' => 'some description',
-                                    'id'     => 123,
-                                    'video_id'  => 'Y_dasj2as',
+                                    'id'     => 'Y_dasj2as',
                                     'playlist_title' => 'some title',
                                     'video_title' => 'some video title',
                                     'sitename' => 'russianpod101'));
@@ -41,12 +40,12 @@ class YoutubeVideoTableTest extends PHPUnit_Framework_TestCase
         $mockTableGateway = $this->getMock('Zend\Db\TableGateway\TableGateway', array('select'), array(), '', false);
         $mockTableGateway->expects($this->once())
                          ->method('select')
-                         ->with(array('id' => 123))
+                         ->with(array('id' => 'Y_dasj2as'))
                          ->will($this->returnValue($resultSet));
 
         $youtubeVideoTable = new YoutubeVideoTable($mockTableGateway);
 
-        $this->assertSame($video, $youtubeVideoTable->getVideo(123));
+        $this->assertSame($video, $youtubeVideoTable->getVideo('Y_dasj2as'));
     }
 
     public function testCanDeleteAnVideoByItsId()
@@ -54,23 +53,31 @@ class YoutubeVideoTableTest extends PHPUnit_Framework_TestCase
         $mockTableGateway = $this->getMock('Zend\Db\TableGateway\TableGateway', array('delete'), array(), '', false);
         $mockTableGateway->expects($this->once())
                          ->method('delete')
-                         ->with(array('id' => 123));
+                         ->with(array('id' => 'Y_dasj2as'));
 
         $youtubeVideoTable = new YoutubeVideoTable($mockTableGateway);
-        $youtubeVideoTable->deleteVideo(123);
+        $youtubeVideoTable->deleteVideo('Y_dasj2as');
     }
 
-    public function testSaveVideoWillInsertNewVideosIfTheyDontAlreadyHaveAnId()
+    public function testSaveVideoWillInsertNewVideosIfIdNotFound()
     {
         $data = array('description' => 'some description',
-                                    'video_id'  => 'Y_dasj2as',
+                                    'id'  => 'Y_dasj2as',
                                     'playlist_title' => 'some title',
                                     'video_title' => 'some video title',
                                     'sitename' => 'russianpod101');
-        $video     = new YoutubeVideo();
+        $video = new YoutubeVideo();
         $video->exchangeArray($data);
 
-        $mockTableGateway = $this->getMock('Zend\Db\TableGateway\TableGateway', array('insert'), array(), '', false);
+        $resultSet = new ResultSet();
+        $resultSet->setArrayObjectPrototype(new YoutubeVideo());// empty result set
+
+        $mockTableGateway = $this->getMock('Zend\Db\TableGateway\TableGateway', array('select', 'insert'), array(), '', false);
+
+        $mockTableGateway->expects($this->once())
+                         ->method('select')
+                         ->with(array('id' => 'Y_dasj2as'))
+                         ->will($this->returnValue($resultSet));
         $mockTableGateway->expects($this->once())
                          ->method('insert')
                          ->with($data);
@@ -79,11 +86,10 @@ class YoutubeVideoTableTest extends PHPUnit_Framework_TestCase
         $youtubeVideoTable->saveVideo($video);
     }
 
-    public function testSaveVideoWillUpdateExistingVideosIfTheyAlreadyHaveAnId()
+    public function testSaveVideoWillUpdateExistingVideosIfIdFound()
     {
         $data = array('description' => 'some description',
-                                    'id' => 123,
-                                    'video_id'  => 'Y_dasj2as',
+                                    'id' => 'Y_dasj2as',
                                     'playlist_title' => 'some title',
                                     'video_title' => 'some video title',
                                     'sitename' => 'russianpod101');
@@ -98,15 +104,15 @@ class YoutubeVideoTableTest extends PHPUnit_Framework_TestCase
                                            array('select', 'update'), array(), '', false);
         $mockTableGateway->expects($this->once())
                          ->method('select')
-                         ->with(array('id' => 123))
+                         ->with(array('id' => 'Y_dasj2as'))
                          ->will($this->returnValue($resultSet));
         $mockTableGateway->expects($this->once())
                          ->method('update')
-                         ->with(array('description' => 'some description', 'video_id'  => 'Y_dasj2as',
+                         ->with(array('description' => 'some description', 'id'  => 'Y_dasj2as',
                                     'playlist_title' => 'some title',
                                     'video_title' => 'some video title',
                                     'sitename' => 'russianpod101'),
-                                array('id' => 123));
+                                array('id' => 'Y_dasj2as'));
 
         $youtubeVideoTable = new YoutubeVideoTable($mockTableGateway);
         $youtubeVideoTable->saveVideo($video);
@@ -121,15 +127,15 @@ class YoutubeVideoTableTest extends PHPUnit_Framework_TestCase
         $mockTableGateway = $this->getMock('Zend\Db\TableGateway\TableGateway', array('select'), array(), '', false);
         $mockTableGateway->expects($this->once())
                          ->method('select')
-                         ->with(array('id' => 123))
+                         ->with(array('id' => 'Y_dasj2as'))
                          ->will($this->returnValue($resultSet));
 
         $youtubeVideoTable = new YoutubeVideoTable($mockTableGateway);
 
         try {
-            $youtubeVideoTable->getVideo(123);
+            $youtubeVideoTable->getVideo('Y_dasj2as');
         } catch (\Exception $e) {
-            $this->assertSame('Could not find row 123', $e->getMessage());
+            $this->assertSame('Could not find row Y_dasj2as', $e->getMessage());
 
             return;
         }
