@@ -39,8 +39,8 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $playlist_id = $this->params()->fromQuery('playlist_id');
-        if ($playlist_id) {
+        $playlist_id_q = $this->params()->fromQuery('playlist_id');
+        if ($playlist_id_q) {
             $this->redirect()->toRoute('youtubetool/list', array('playlist_id' => $playlist_id));
         }
 
@@ -64,9 +64,9 @@ class IndexController extends AbstractActionController
         ));
         $form->get('submit')->setValue('Go');
 
-        $playlist_id = $this->params()->fromRoute('playlist_id');
+        $playlist_id_r = $this->params()->fromRoute('playlist_id');
         if ($playlist_id) {
-            $videos = $youtubeVideoTable->fetchVideos(array('playlist_id' => $playlist_id));
+            $videos = $youtubeVideoTable->fetchVideos(array('playlist_id' => $playlist_id_r));
         } else {
             $videos = $youtubeVideoTable->fetchVideos();
         }
