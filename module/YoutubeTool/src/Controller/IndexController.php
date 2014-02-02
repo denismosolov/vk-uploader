@@ -6,7 +6,8 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Google_Client;
 use Google_YouTubeService;
-use YoutubeTool\Form\YoutubeVideoForm;
+//use YoutubeTool\Form\YoutubeVideoForm;
+use Zend\Form\Form;
 
 class IndexController extends AbstractActionController
 {
@@ -18,11 +19,49 @@ class IndexController extends AbstractActionController
 
     public function listAction()
     {
-        $form = new YoutubeVideoForm();
-        $form->get('submit')->setValue('Go');
-
         $sm = $this->getServiceLocator();
         $youtubeVideoTable = $sm->get('YoutubeTool\Model\YoutubeVideoTable');
+        $tableGateway = $sm->get('YoutubeVideoTableGateway');
+
+        $selectSQL = new \Zend\Db\Sql\Select();
+        $selectSQL->from($tableGateway->getTable());
+        $selectSQL->quantifier(\Zend\Db\Sql\Select::QUANTIFIER_DISTINCT);
+        $selectSQL->columns(array('playlist_title', 'sitename'));
+        $resultSet = $tableGateway->selectWith($selectSQL);
+
+        $selectOptions = array();
+        foreach ($resultSet as $row) {
+            if (array_key_exists($row->sitename, $selectOptions)) {
+                $selectOptions[$row->sitename]['options'][] = $row->playlist_title;
+            } else {
+                $selectOptions[$row->sitename] = array('label' => $row->sitename, 'options' => array($row->playlist_title));
+            }
+        }
+
+        $channels = array();
+        foreach ($resultSet as $row) {
+            // use playlist_id for key
+            $channels[] = array(
+                $row->playlist_title);
+        }
+
+        $form = new Form();
+        $form->add(array(
+            'name' => 'playlist',
+            'type' => 'Select',
+            'options' => array(
+                'empty_options' => 'Choose Playlist',
+                'value_options' => $selectOptions,
+            ),
+        ));
+        $form->add(array(
+            'name' => 'submit',
+            'type' => 'Submit',
+            'attributes' => array(
+                'value' => 'Go',
+            ),
+        ));
+        $form->get('submit')->setValue('Go');
 
         $request = $this->getRequest();
         if ($request->isPost()) {

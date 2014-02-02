@@ -117,18 +117,4 @@ class YoutubeVideoTable implements \Countable
         $this->tableGateway->delete(array());
     }
 
-    public function getSitenames101()
-    {
-        $select = new Select();
-        $select->from($this->tableGateway->getTable());
-        $select->quantifier(Select::QUANTIFIER_DISTINCT);
-        $select->columns(array('sitename'));
-        $resultSet = $this->tableGateway->selectWith($select);
-        $sitenames = array();
-        foreach ($resultSet as $row) {
-            $sitenames[] = $row->sitename;
-        }
-
-        return $sitenames;
-    }
 }
