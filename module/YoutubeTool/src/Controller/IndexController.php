@@ -6,7 +6,6 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Google_Client;
 use Google_YouTubeService;
-//use YoutubeTool\Form\YoutubeVideoForm;
 use Zend\Form\Form;
 
 class IndexController extends AbstractActionController

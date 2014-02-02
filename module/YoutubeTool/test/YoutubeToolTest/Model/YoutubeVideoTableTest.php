@@ -29,6 +29,7 @@ class YoutubeVideoTableTest extends PHPUnit_Framework_TestCase
         $video = new YoutubeVideo();
         $video->exchangeArray(array('description' => 'some description',
                                     'id'     => 'Y_dasj2as',
+                                    'playlist_id' => 'askjdh_Yda',
                                     'playlist_title' => 'some title',
                                     'video_title' => 'some video title',
                                     'sitename' => 'russianpod101'));
@@ -63,6 +64,7 @@ class YoutubeVideoTableTest extends PHPUnit_Framework_TestCase
     {
         $data = array('description' => 'some description',
                                     'id'  => 'Y_dasj2as',
+                                    'playlist_id' => 'askjdh_Yda',
                                     'playlist_title' => 'some title',
                                     'video_title' => 'some video title',
                                     'sitename' => 'russianpod101');
@@ -90,6 +92,7 @@ class YoutubeVideoTableTest extends PHPUnit_Framework_TestCase
     {
         $data = array('description' => 'some description',
                                     'id' => 'Y_dasj2as',
+                                    'playlist_id' => 'askjdh_Yda',
                                     'playlist_title' => 'some title',
                                     'video_title' => 'some video title',
                                     'sitename' => 'russianpod101');
@@ -109,6 +112,7 @@ class YoutubeVideoTableTest extends PHPUnit_Framework_TestCase
         $mockTableGateway->expects($this->once())
                          ->method('update')
                          ->with(array('description' => 'some description', 'id'  => 'Y_dasj2as',
+                                    'playlist_id' => 'askjdh_Yda',
                                     'playlist_title' => 'some title',
                                     'video_title' => 'some video title',
                                     'sitename' => 'russianpod101'),

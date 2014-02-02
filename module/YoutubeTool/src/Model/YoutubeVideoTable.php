@@ -3,7 +3,6 @@
 namespace YoutubeTool\Model;
 
 use Zend\Db\TableGateway\TableGateway;
-use Zend\Db\Sql\Select;
 
 /**
  * Description of YoutubeVideoTable
@@ -60,6 +59,7 @@ class YoutubeVideoTable implements \Countable
             'description' => $video->description,
             'video_title'  => $video->video_title,
             'id' => $video->id,
+            'playlist_id' => $video->playlist_id,
             'playlist_title' => $video->playlist_title,
             'sitename' => $video->sitename,
         );
@@ -90,9 +90,9 @@ class YoutubeVideoTable implements \Countable
             foreach ($playlistListResponse->getItems() as $googlePlaylist) {
                 $playlist = $googlePlaylist->getSnippet();
                 $playlistTitle = $playlist->getTitle();
-
+                $playlistId = $googlePlaylist->getId();
                 $playlistItemListResponse = $service->playlistItems->listPlaylistItems('snippet',  array(
-                    'playlistId' => $googlePlaylist->getId(),
+                    'playlistId' => $playlistId,
                     'maxResults' => 50));
                 $playlistItemListResponseItems = $playlistItemListResponse->getItems();
                 foreach ($playlistItemListResponseItems as $playlistItem) {
@@ -103,6 +103,7 @@ class YoutubeVideoTable implements \Countable
                         'video_title' => $playlistItemSnippet->getTitle(),
                         'description' => $playlistItemSnippet->getDescription(),
                         'id' => $resourceId->getVideoId(),
+                        'playlist_id' => $playlistId,
                         'playlist_title' => $playlistTitle,
                         'sitename' => $sitename101,
                     ));
