@@ -29,16 +29,8 @@ class YoutubeVideoTable implements \Countable
      * @param  string    $playlist_title
      * @return ResultSet
      */
-    public function fetchVideos($sitename101 = null, $playlist_title = null)
+    public function fetchVideos($where = array())
     {
-        $where = array();
-        if (!is_null($sitename101)) {
-            $where['sitename'] = $sitename101;
-        }
-        if (!is_null($playlist_title)) {
-            $where['playlist_title'] = $playlist_title;
-        }
-
         return $this->tableGateway->select($where);
     }
 

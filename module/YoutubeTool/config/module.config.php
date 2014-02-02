@@ -37,9 +37,9 @@ return array(
                         ),
                     ),
                     'list' => array(
-                        'type' => 'Literal',
+                        'type' => 'Segment',
                         'options' => array(
-                            'route' => '/list',
+                            'route' => '/list[/:playlist_id]',
                             'defaults' => array(
                                 'controller' => 'Index',
                                 'action' => 'list',

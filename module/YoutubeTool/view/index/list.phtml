@@ -11,12 +11,11 @@ foreach ($videos as $video) {
 ?>
 <article>
     <header>
-        <h2><?= $this->escapeHtml($video->video_title); ?></h2>
+        <h3><a href="<?= $this->url('youtubetool/ud', array('action' => 'edit', 'youtube_id' => $video->id)); ?>"><?= $this->escapeHtml($video->video_title); ?></a></h3>
     </header>
     <section>
-        <strong><?= $this->escapeHtml($video->sitename) ?></strong>, <em><?= $this->escapeHtml($video->playlist_title); ?></em><br>
-        <a href="http://www.youtube.com/watch?v=<?= $this->escapeHtml($video->id); ?>">Watch on YouTube</a><br>
-        <a href="<?= $this->url('youtubetool/ud', array('action' => 'edit', 'youtube_id' => $video->id)); ?>">Edit the Text</a>
+        <a href="<?= $this->url('youtubetool/list', array('playlist_id' => $video->playlist_id)); ?>"><?= $this->escapeHtml($video->playlist_title); ?></a><br>
+        <strong><?= $this->escapeHtml($video->sitename) ?></strong><br>
     </section>
     <section>
         <p><?= $this->escapeHtml($video->description); ?></p>

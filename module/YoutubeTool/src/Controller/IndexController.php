@@ -18,6 +18,8 @@ class IndexController extends AbstractActionController
 
     public function listAction()
     {
+        // @todo: append pagination
+
         $sm = $this->getServiceLocator();
         $youtubeVideoTable = $sm->get('YoutubeTool\Model\YoutubeVideoTable');
         $tableGateway = $sm->get('YoutubeVideoTableGateway');
@@ -37,16 +39,16 @@ class IndexController extends AbstractActionController
             }
         }
 
-        $channels = array();
-        foreach ($resultSet as $row) {
-            // use playlist_id for key
-            $channels[] = array(
-                $row->playlist_title);
+        $playlist_id = $this->params()->fromQuery('playlist_id');
+        if ($playlist_id) {
+            $this->redirect()->toRoute('youtubetool/list', array('playlist_id' => $playlist_id));
         }
 
         $form = new Form();
+        $form->setAttribute('method', 'get');
+        $form->setAttribute('action', $this->url()->fromRoute('youtubetool/list'));
         $form->add(array(
-            'name' => 'playlist',
+            'name' => 'playlist_id',
             'type' => 'Select',
             'options' => array(
                 'empty_options' => 'Choose Playlist',
@@ -62,10 +64,9 @@ class IndexController extends AbstractActionController
         ));
         $form->get('submit')->setValue('Go');
 
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            // @todo: does form valid
-            $videos = $youtubeVideoTable->fetchVideos($request->getPost('sitename', null), $request->getPost('playlist_title', null));
+        $playlist_id = $this->params()->fromRoute('playlist_id');
+        if ($playlist_id) {
+            $videos = $youtubeVideoTable->fetchVideos(array('playlist_id' => $playlist_id));
         } else {
             $videos = $youtubeVideoTable->fetchVideos();
         }
