@@ -25,15 +25,15 @@ class IndexController extends AbstractActionController
         $selectSQL = new \Zend\Db\Sql\Select();
         $selectSQL->from($tableGateway->getTable());
         $selectSQL->quantifier(\Zend\Db\Sql\Select::QUANTIFIER_DISTINCT);
-        $selectSQL->columns(array('playlist_title', 'sitename'));
+        $selectSQL->columns(array('playlist_title', 'sitename', 'playlist_id'));
         $resultSet = $tableGateway->selectWith($selectSQL);
 
         $selectOptions = array();
         foreach ($resultSet as $row) {
             if (array_key_exists($row->sitename, $selectOptions)) {
-                $selectOptions[$row->sitename]['options'][] = $row->playlist_title;
+                $selectOptions[$row->sitename]['options'][$row->playlist_id] = $row->playlist_title;
             } else {
-                $selectOptions[$row->sitename] = array('label' => $row->sitename, 'options' => array($row->playlist_title));
+                $selectOptions[$row->sitename] = array('label' => $row->sitename, 'options' => array($row->playlist_id => $row->playlist_title));
             }
         }
 
