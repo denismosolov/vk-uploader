@@ -31,7 +31,6 @@ class Module implements ServiceProviderInterface
     }
 
     // @todo: remove anonymus functions and use classes
-    //public function getServiceConfig()
     public function getServiceConfig()
     {
         return array(
