@@ -5,6 +5,8 @@ return array(
             'youtube-tool/index/index' => __DIR__ . '/../view/index/index.phtml',
             'youtube-tool/index/import' => __DIR__ . '/../view/index/import.phtml',
             'youtube-tool/index/list' => __DIR__ . '/../view/index/list.phtml',
+            'youtube-tool/index/playlist' => __DIR__ . '/../view/index/playlist.phtml',
+            'youtube-tool/selectplaylist' => __DIR__ . '/../view/layout/selectplaylist.phtml',
         ),
     ),
     'controllers' => array(
@@ -29,7 +31,7 @@ return array(
                     'ud' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/index/:action/:youtube_id',
+                            'route'    => '/:action/:youtube_id',
                             'constraints' => array(
                                 'action'     => 'edit|delete',
                                 'youtube_id' => '[a-zA-Z][a-zA-Z0-9_-]*',
@@ -37,12 +39,22 @@ return array(
                         ),
                     ),
                     'list' => array(
-                        'type' => 'Segment',
+                        'type' => 'Literal',
                         'options' => array(
-                            'route' => '/list[/:playlist_id]',
+                            'route' => '/list',
                             'defaults' => array(
                                 'controller' => 'Index',
                                 'action' => 'list',
+                            ),
+                        ),
+                    ),
+                    'playlist' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/playlist[/:playlist_id]',
+                            'defaults' => array(
+                                'controller' => 'Index',
+                                'action' => 'playlist',
                             ),
                         ),
                     ),

@@ -1,24 +1,4 @@
 <?php
-$this->headTitle('Imported Youtube Videos');
+$this->headTitle('Imported Youtube Playlists');
 ?>
-<?php
-$form->prepare();
-echo $this->form()->openTag($form);
-echo $this->formCollection($form);
-echo $this->form()->closeTag();
-
-foreach ($videos as $video) {
-?>
-<article>
-    <header>
-        <h3><a href="<?= $this->url('youtubetool/ud', array('action' => 'edit', 'youtube_id' => $video->id)); ?>"><?= $this->escapeHtml($video->video_title); ?></a></h3>
-    </header>
-    <section>
-        <a href="<?= $this->url('youtubetool/list', array('playlist_id' => $video->playlist_id)); ?>"><?= $this->escapeHtml($video->playlist_title); ?></a><br>
-        <strong><?= $this->escapeHtml($video->sitename) ?></strong><br>
-    </section>
-    <section>
-        <p><?= $this->escapeHtml($video->description); ?></p>
-    </section>
-</article>
-<?php } ?>
+<?= $this->partial('youtube-tool/selectplaylist'); ?>
