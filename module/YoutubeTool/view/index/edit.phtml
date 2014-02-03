@@ -1,0 +1,14 @@
+<header><h2><?= $this->escapeHtml($video->video_title); ?></h2></header>
+<article>
+    <section>
+        <em><?= $this->escapeHtml($video->sitename); ?></em><br>
+        <a href="<?= $this->url('youtubetool/playlist', array('playlist_id' => $video->playlist_id)); ?>"><?= $this->escapeHtml($video->video_title); ?></a><br>
+        <a href="http://www.youtube.com/watch?v=<?= $this->escapeHtml($video->id); ?>">http://www.youtube.com/watch?v=<?= $this->escapeHtml($video->id); ?></a><br>
+    </section>
+    <section>
+        <textarea>
+            <?= $this->escapeHtml($video->description); ?>
+        </textarea>
+        <!-- @todo: submit form -->
+    </section>
+</article>

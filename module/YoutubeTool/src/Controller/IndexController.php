@@ -105,7 +105,30 @@ class IndexController extends AbstractActionController
 
         // when user clicks "Go" button without selecting a playlist
         // it redirects him back to /list
+        // @todo: 404
         return $this->redirect()->toRoute('youtubetool/list');
+    }
+
+    public function editAction()
+    {
+        $youtube_id_r = $this->params()->fromRoute('youtube_id');
+        if (!empty($youtube_id_r)) {
+            $sm = $this->getServiceLocator();
+            $youtubeVideoTable = $sm->get('YoutubeTool\Model\YoutubeVideoTable');
+            try {
+                $video = $youtubeVideoTable->getVideo($youtube_id_r);
+                // @todo: submit form
+                return new ViewModel(array(
+                    'video' => $video
+                ));
+            } catch (\Exception $ex) {
+                // exeptions seems to be bad idea
+                // @todo: remove the method throw exception
+                return $this->redirect()->toRoute('youtubetool/list'); // @todo: 404
+            }
+        } else {
+            return $this->redirect()->toRoute('youtubetool/list');
+        }
     }
 
     public function importAction()

@@ -7,6 +7,7 @@ return array(
             'youtube-tool/index/list' => __DIR__ . '/../view/index/list.phtml',
             'youtube-tool/index/playlist' => __DIR__ . '/../view/index/playlist.phtml',
             'youtube-tool/selectplaylist' => __DIR__ . '/../view/layout/selectplaylist.phtml',
+            'youtube-tool/index/edit' => __DIR__ . '/../view/index/edit.phtml',
         ),
     ),
     'controllers' => array(
@@ -28,13 +29,16 @@ return array(
                 ),
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'ud' => array(
+                    'edit' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/:action/:youtube_id',
-                            'constraints' => array(
-                                'action'     => 'edit|delete',
-                                'youtube_id' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            'route'    => '/video/:youtube_id',
+//                            'constraints' => array(
+//                                'youtube_id' => '[a-zA-Z][a-zA-Z0-9_-]*',
+//                            ),
+                            'defaults' => array(
+                                'controller' => 'Index',
+                                'action' => 'edit',
                             ),
                         ),
                     ),
