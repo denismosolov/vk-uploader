@@ -1,0 +1,21 @@
+<?php
+$this->headTitle('Youtube Playlist: ' . $this->escapeHtml($playlist_title) . ' ' . $this->escapeHtml($sitename101) . '.com');
+?>
+<?= $this->partial('youtube-tool/selectplaylist'); ?>
+<header><h2><?= $this->escapeHtml($playlist_title); ?> <?= $this->escapeHtml($sitename101); ?>.com</h2></header>
+<?php
+if (isset($videos)) {
+    foreach ($videos as $video) {
+?>
+<article>
+    <header>
+        <h3><a href="<?= $this->url('youtubetool/ud', array('action' => 'edit', 'youtube_id' => $video->id)); ?>"><?= $this->escapeHtml($video->video_title); ?></a></h3>
+    </header>
+    <section>
+        <p><?= $this->escapeHtml($video->description); ?></p>
+    </section>
+</article>
+<?php 
+    }
+} 
+?>
