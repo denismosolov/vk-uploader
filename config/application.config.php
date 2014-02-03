@@ -8,7 +8,6 @@
 return array(
     'modules' => array(
         'Application',
-        'VkTool',
         'YoutubeTool',
     ),
     'module_listener_options' => array(
