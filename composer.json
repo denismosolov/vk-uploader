@@ -26,7 +26,9 @@
         "zendframework/zendframework": "2.2.*",
         "phpunit/phpunit": "3.7.*",
         "zendframework/zftool": "dev-master",
-        "google/google-api-php-client": "1.0.0"
+        "google/google-api-php-client": "1.0.0",
+        "doctrine/doctrine-orm-module": "0.7.*",
+        "zendframework/zend-developer-tools": "dev-master"
     },
     "autoload": {
         "classmap": ["vendor/google/google-api-php-client/src"],

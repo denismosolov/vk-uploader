@@ -1,0 +1,30 @@
+Video:
+    type: entity
+    table: vk_videos
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+    fields:
+        youtube_id:
+            type: string
+            length: 128
+        youtube_group_id:
+            type: string
+            length: 128
+        title:
+            type: string
+            length: 128
+        description:
+            type: text
+            length: 4096
+        lesson_url:
+            type: string
+            length: 256
+        lesson_url_affiliate:
+            type: string
+            length: 256
+        lesson_urL-affilaite_minified:
+            type: string
+            length: 128

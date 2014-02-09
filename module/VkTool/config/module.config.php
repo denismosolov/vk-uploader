@@ -61,4 +61,18 @@ return array(
             'russianpod101' => '65210550', // group_id
         ),
     ),
+    'doctrine' => array(
+        'driver' => array(
+            'vktool_entities' => array(
+                'class' =>'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/Entity/Vk'),
+            ),
+            'orm_default' => array(
+                'drivers' => array(
+                    'VkTool\Entity\Vk' => 'vktool_entities',
+                ),
+            ),
+        ),
+    ),
 );
